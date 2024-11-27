@@ -39,22 +39,6 @@ const App = () => {
     setTodos(updatedTodos);
   };
 
-  const editTodo = (
-    id: string,
-    name: string,
-    priority: number,
-    deadline: Date | null
-  ) => {
-    const updatedTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        return { ...todo, name, priority, deadline };
-      } else {
-        return todo;
-      }
-    });
-    setTodos(updatedTodos);
-  };
-
   const isValidTodoName = (name: string): string => {
     if (name.length < 2 || name.length > 32) {
       return "2文字以上、32文字以内で入力してください";
@@ -144,7 +128,7 @@ const App = () => {
         <button
           type="button"
           onClick={() => setShowSettings(!showSettings)}
-          className="rounded-md bg-blue-500 px-3 py-1 font-bold text-white hover:bg-blue-600"
+          className="rounded-md border bg-blue-500 px-3 py-1 font-bold text-white hover:bg-blue-600"
         >
           新しいタスクの追加
         </button>
@@ -157,7 +141,7 @@ const App = () => {
               setTodos(uncompletedTodos);
             })
           }
-          className="rounded-md bg-gray-500 px-3 py-1 font-bold text-white hover:bg-gray-600"
+          className="rounded-md border bg-gray-500 px-3 py-1 font-bold text-white hover:bg-gray-600"
         >
           完了済みタスクを削除
         </button>
@@ -169,7 +153,7 @@ const App = () => {
               setTodos([]);
             })
           }
-          className="rounded-md bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
+          className="rounded-md border bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
         >
           全てのタスクを削除
         </button>
@@ -179,15 +163,15 @@ const App = () => {
         <button
           type="button"
           onClick={sortTodosByDeadline}
-          className="rounded-md bg-green-500 px-3 py-1 font-bold text-white hover:bg-green-600"
+          className="rounded-md border bg-green-500 px-3 py-1 font-bold text-white hover:bg-green-600"
         >
-          期日でソート
+          期限でソート
         </button>
 
         <button
           type="button"
           onClick={sortTodosByPriority}
-          className="rounded-md bg-yellow-500 px-3 py-1 font-bold text-white hover:bg-yellow-600"
+          className="rounded-md border bg-yellow-500 px-3 py-1 font-bold text-white hover:bg-yellow-600"
         >
           優先度でソート
         </button>
@@ -201,7 +185,7 @@ const App = () => {
 
       {showSettings && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="rounded-md bg-gray-400 p-5 shadow-md">
+          <div className="rounded-md border bg-gray-400 p-5 shadow-md">
             <div>
               <div className="flex items-center space-x-2">
                 <label className="font-bold" htmlFor="newTodoName">
@@ -268,7 +252,7 @@ const App = () => {
               type="button"
               onClick={addNewTodo}
               className={twMerge(
-                "rounded-md bg-indigo-500 px-3 py-1 font-bold text-white hover:bg-indigo-600",
+                "border rounded-md bg-indigo-500 px-3 py-1 font-bold text-white hover:bg-indigo-600",
                 newTodoNameError && "cursor-not-allowed opacity-50"
               )}
             >
@@ -277,7 +261,7 @@ const App = () => {
             <button
               type="button"
               onClick={() => setShowSettings(false)}
-              className="rounded-md bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
+              className="rounded-md border bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
             >
               キャンセル
             </button>
@@ -287,7 +271,7 @@ const App = () => {
 
       {confirmDialog && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="rounded-md bg-white p-5 shadow-md">
+          <div className="rounded-md border-black  bg-white p-5 shadow-md">
             <p className="mb-4">{confirmDialog.message}</p>
             <div className="flex justify-end space-x-2">
               <button
@@ -295,13 +279,13 @@ const App = () => {
                   confirmDialog.onConfirm();
                   handleConfirmClose();
                 }}
-                className="rounded-md bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
+                className="rounded-md border bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
               >
                 はい
               </button>
               <button
                 onClick={handleConfirmClose}
-                className="rounded-md bg-gray-500 px-3 py-1 font-bold text-white hover:bg-gray-600"
+                className="rounded-md border bg-gray-500 px-3 py-1 font-bold text-white hover:bg-gray-600"
               >
                 いいえ
               </button>
