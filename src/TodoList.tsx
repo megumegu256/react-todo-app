@@ -3,6 +3,7 @@ import { Todo } from "./types";
 
 type Props = {
   todos: Todo[];
+  updateIsDone: (id: string, value: boolean) => void; // ◀◀ 追加
 };
 
 const TodoList = (props: Props) => {
@@ -23,6 +24,7 @@ const TodoList = (props: Props) => {
           <input
             type="checkbox"
             checked={todo.isDone}
+            onChange={(e) => props.updateIsDone(todo.id, e.target.checked)}
             className="mr-1.5 cursor-pointer"
           />
           {todo.name} 優先度: {todo.priority}

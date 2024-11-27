@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Todo } from "./types";
 import { initTodos } from "./initTodos";
-import WelcomeMessage from "./WelcomeMessage";
+//import WelcomeMessage from "./WelcomeMessage";
 import TodoList from "./TodoList";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
@@ -16,7 +16,18 @@ const App = () => {
   const [newTodoDeadline, setNewTodoDeadline] = useState<Date | null>(null);
   const [newTodoNameError, setNewTodoNameError] = useState("");
 
-  const uncompletedCount = todos.filter((todo: Todo) => !todo.isDone).length;
+  const updateIsDone = (id: string, value: boolean) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, isDone: value }; // スプレッド構文
+      } else {
+        return todo;
+      }
+    });
+    setTodos(updatedTodos);
+  };
+
+  //const uncompletedCount = todos.filter((todo: Todo) => !todo.isDone).length;
 
   // ▼▼ 追加
   const isValidTodoName = (name: string): string => {
@@ -66,7 +77,7 @@ const App = () => {
   return (
     <div className="mx-4 mt-10 max-w-2xl md:mx-auto">
       <h1 className="mb-4 text-2xl font-bold">TodoApp</h1>
-      <TodoList todos={todos} />
+      <TodoList todos={todos} updateIsDone={updateIsDone} />
 
       <div className="mt-5 space-y-2 rounded-md border p-3">
         <h2 className="text-lg font-bold">新しいタスクの追加</h2>
