@@ -39,6 +39,22 @@ const App = () => {
     setTodos(updatedTodos);
   };
 
+  const editTodo = (
+    id: string,
+    name: string,
+    priority: number,
+    deadline: Date | null
+  ) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, name, priority, deadline };
+      } else {
+        return todo;
+      }
+    });
+    setTodos(updatedTodos);
+  };
+
   const isValidTodoName = (name: string): string => {
     if (name.length < 2 || name.length > 32) {
       return "2文字以上、32文字以内で入力してください";
@@ -159,21 +175,23 @@ const App = () => {
         </button>
       </div>
 
-      <button
-        type="button"
-        onClick={sortTodosByDeadline}
-        className="rounded-md bg-green-500 px-3 py-1 font-bold text-white hover:bg-green-600"
-      >
-        期日でソート
-      </button>
+      <div className="flex items-center space-x-2">
+        <button
+          type="button"
+          onClick={sortTodosByDeadline}
+          className="rounded-md bg-green-500 px-3 py-1 font-bold text-white hover:bg-green-600"
+        >
+          期日でソート
+        </button>
 
-      <button
-        type="button"
-        onClick={sortTodosByPriority}
-        className="rounded-md bg-yellow-500 px-3 py-1 font-bold text-white hover:bg-yellow-600"
-      >
-        優先度でソート
-      </button>
+        <button
+          type="button"
+          onClick={sortTodosByPriority}
+          className="rounded-md bg-yellow-500 px-3 py-1 font-bold text-white hover:bg-yellow-600"
+        >
+          優先度でソート
+        </button>
+      </div>
 
       <TodoList
         todos={todos}

@@ -23,7 +23,7 @@ const TodoList = (props: Props) => {
       {todos.map((todo) => (
         <div
           key={todo.id}
-          className="relative flex max-w-md items-center justify-between rounded-md border bg-white p-1"
+          className="relative flex max-w-xl items-center justify-between rounded-md border bg-white p-1"
         >
           <div className="flex grow items-start">
             <input
@@ -48,6 +48,15 @@ const TodoList = (props: Props) => {
               {todo.deadline
                 ? new Date(todo.deadline).toLocaleString()
                 : "未設定"}
+            </div>
+
+            <div className="flex grow items-end">
+              <button
+                className="absolute -top-2 right-6 flex items-center justify-center rounded-md bg-blue-500 text-white hover:bg-blue-600"
+                onClick={() => props.Todo(todo.id)}
+              >
+                編集✎
+              </button>
             </div>
 
             <div className="flex grow items-end">
