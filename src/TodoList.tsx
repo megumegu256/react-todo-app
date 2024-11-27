@@ -5,6 +5,7 @@ type Props = {
   todos: Todo[];
   updateIsDone: (id: string, value: boolean) => void;
   deleteTodo: (id: string) => void;
+  editTodo: (id: string) => void;
 };
 
 const TodoList = (props: Props) => {

@@ -39,6 +39,17 @@ const App = () => {
     setTodos(updatedTodos);
   };
 
+  const editTodo = (id: string) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, name: "編集中" };
+      } else {
+        return todo;
+      }
+    });
+    setTodos(updatedTodos);
+  };
+
   const isValidTodoName = (name: string): string => {
     if (name.length < 2 || name.length > 32) {
       return "2文字以上、32文字以内で入力してください";
@@ -181,6 +192,7 @@ const App = () => {
         todos={todos}
         updateIsDone={updateIsDone}
         deleteTodo={deleteTodo}
+        editTodo={editTodo}
       />
 
       {showSettings && (
