@@ -94,126 +94,138 @@ const App = () => {
   };
 
   return (
-    <div className="mx-4 mt-10 max-w-2xl md:mx-auto">
-      <h1 className="mb-4 text-2xl font-bold">TodoApp</h1>
+    <div className="mx-4 mt-10 max-w-2xl space-y-4 rounded-md border bg-cbgBlue p-1 md:mx-auto">
+      <h1 className="mb-4 text-2xl font-bold">
+        <span className="rounded-md border bg-gray-400 p-1">TodoApp</span>
+      </h1>
+      <div className="flex items-center space-x-2">
+        <button
+          type="button"
+          onClick={() => setShowSettings(!showSettings)}
+          className="rounded-md bg-blue-500 px-3 py-1 font-bold text-white hover:bg-blue-600"
+        >
+          新しいタスクの追加
+        </button>
+        {showSettings && (
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <div className="rounded-md bg-gray-400 p-5 shadow-md">
+              <div>
+                <div className="flex items-center space-x-2">
+                  <label className="font-bold" htmlFor="newTodoName">
+                    名前
+                  </label>
+                  <input
+                    id="newTodoName"
+                    type="text"
+                    value={newTodoName}
+                    onChange={updateNewTodoName}
+                    className={twMerge(
+                      "grow rounded-md border p-2",
+                      newTodoNameError && "border-red-500 outline-red-500"
+                    )}
+                    placeholder="2文字以上、32文字以内で入力してください"
+                  />
+                </div>
+                {newTodoNameError && (
+                  <div className="ml-10 flex items-center space-x-1 text-sm font-bold text-red-500 ">
+                    <FontAwesomeIcon
+                      icon={faTriangleExclamation}
+                      className="mr-0.5"
+                    />
+                    <div>{newTodoNameError}</div>
+                  </div>
+                )}
+              </div>
 
-      <button
-        type="button"
-        onClick={() =>
-          handleConfirm("本当に完了済みタスクを削除しますか？", () => {
-            const uncompletedTodos = todos.filter((todo) => !todo.isDone);
-            setTodos(uncompletedTodos);
-          })
-        }
-        className="rounded-md bg-gray-500 px-3 py-1 font-bold text-white hover:bg-gray-600"
-      >
-        完了済みタスクを削除
-      </button>
+              <div className="flex gap-5">
+                <div className="font-bold">優先度</div>
+                {[1, 2, 3].map((value) => (
+                  <label key={value} className="flex items-center space-x-1">
+                    <input
+                      id={`priority-${value}`}
+                      name="priorityGroup"
+                      type="radio"
+                      value={value}
+                      checked={newTodoPriority === value}
+                      onChange={updateNewTodoPriority}
+                    />
+                    <span>{value}</span>
+                  </label>
+                ))}
+              </div>
 
-      <button
-        type="button"
-        onClick={() =>
-          handleConfirm("本当に全てのタスクを削除しますか？", () => {
-            setTodos([]);
-          })
-        }
-        className="rounded-md bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
-      >
-        全てのタスクを削除
-      </button>
+              <div className="flex items-center gap-x-2">
+                <label htmlFor="deadline" className="font-bold">
+                  期限
+                </label>
+                <input
+                  type="datetime-local"
+                  id="deadline"
+                  value={
+                    newTodoDeadline
+                      ? dayjs(newTodoDeadline).format("YYYY-MM-DDTHH:mm:ss")
+                      : ""
+                  }
+                  onChange={updateDeadline}
+                  className="rounded-md border border-gray-400 px-2 py-0.5"
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={addNewTodo}
+                className={twMerge(
+                  "rounded-md bg-indigo-500 px-3 py-1 font-bold text-white hover:bg-indigo-600",
+                  newTodoNameError && "cursor-not-allowed opacity-50"
+                )}
+              >
+                追加
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowSettings(false)}
+                className="rounded-md bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
+              >
+                キャンセル
+              </button>
+            </div>
+          </div>
+        )}
+
+        <button
+          type="button"
+          onClick={() =>
+            handleConfirm("本当に完了済みタスクを削除しますか？", () => {
+              const uncompletedTodos = todos.filter((todo) => !todo.isDone);
+              setTodos(uncompletedTodos);
+            })
+          }
+          className="rounded-md bg-gray-500 px-3 py-1 font-bold text-white hover:bg-gray-600"
+        >
+          完了済みタスクを削除
+        </button>
+
+        <button
+          type="button"
+          onClick={() =>
+            handleConfirm("本当に全てのタスクを削除しますか？", () => {
+              setTodos([]);
+            })
+          }
+          className="rounded-md bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-600"
+        >
+          全てのタスクを削除
+        </button>
+      </div>
 
       <TodoList
         todos={todos}
         updateIsDone={updateIsDone}
         deleteTodo={deleteTodo}
       />
-      <button
-        type="button"
-        onClick={() => setShowSettings(!showSettings)}
-        className="rounded-md bg-gray-500 px-3 py-1 font-bold text-white hover:bg-gray-600"
-      >
-        新しいタスクの追加
-      </button>
-      {showSettings && (
-        <div className="mt-5 space-y-2 rounded-md border p-3">
-          <h2 className="text-lg font-bold">新しいタスクの追加</h2>
-          <div>
-            <div className="flex items-center space-x-2">
-              <label className="font-bold" htmlFor="newTodoName">
-                名前
-              </label>
-              <input
-                id="newTodoName"
-                type="text"
-                value={newTodoName}
-                onChange={updateNewTodoName}
-                className={twMerge(
-                  "grow rounded-md border p-2",
-                  newTodoNameError && "border-red-500 outline-red-500"
-                )}
-                placeholder="2文字以上、32文字以内で入力してください"
-              />
-            </div>
-            {newTodoNameError && (
-              <div className="ml-10 flex items-center space-x-1 text-sm font-bold text-red-500 ">
-                <FontAwesomeIcon
-                  icon={faTriangleExclamation}
-                  className="mr-0.5"
-                />
-                <div>{newTodoNameError}</div>
-              </div>
-            )}
-          </div>
-
-          <div className="flex gap-5">
-            <div className="font-bold">優先度</div>
-            {[1, 2, 3].map((value) => (
-              <label key={value} className="flex items-center space-x-1">
-                <input
-                  id={`priority-${value}`}
-                  name="priorityGroup"
-                  type="radio"
-                  value={value}
-                  checked={newTodoPriority === value}
-                  onChange={updateNewTodoPriority}
-                />
-                <span>{value}</span>
-              </label>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-x-2">
-            <label htmlFor="deadline" className="font-bold">
-              期限
-            </label>
-            <input
-              type="datetime-local"
-              id="deadline"
-              value={
-                newTodoDeadline
-                  ? dayjs(newTodoDeadline).format("YYYY-MM-DDTHH:mm:ss")
-                  : ""
-              }
-              onChange={updateDeadline}
-              className="rounded-md border border-gray-400 px-2 py-0.5"
-            />
-          </div>
-
-          <button
-            type="button"
-            onClick={addNewTodo}
-            className={twMerge(
-              "rounded-md bg-indigo-500 px-3 py-1 font-bold text-white hover:bg-indigo-600",
-              newTodoNameError && "cursor-not-allowed opacity-50"
-            )}
-          >
-            追加
-          </button>
-        </div>
-      )}
 
       {confirmDialog && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="rounded-md bg-white p-5 shadow-md">
             <p className="mb-4">{confirmDialog.message}</p>
             <div className="flex justify-end space-x-2">

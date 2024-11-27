@@ -19,11 +19,11 @@ const TodoList = (props: Props) => {
   }
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-3">
       {todos.map((todo) => (
         <div
           key={todo.id}
-          className="flex items-center justify-between rounded-md border p-0"
+          className="relative flex max-w-md items-center justify-between rounded-md border bg-white p-1"
         >
           <div className="flex grow items-start">
             <input
@@ -34,7 +34,7 @@ const TodoList = (props: Props) => {
             />
             <div className="flex grow items-center">{todo.name}</div>
 
-            <div className="flex grow items-center">
+            <div>
               優先度:{" "}
               {Array(todo.priority)
                 .fill("💣")
@@ -43,12 +43,21 @@ const TodoList = (props: Props) => {
                 ))}
             </div>
 
-            <button
-              onClick={() => props.deleteTodo(todo.id)}
-              className="ml-2 text-red-500 hover:text-red-700"
-            >
-              削除
-            </button>
+            <div>
+              期限:{" "}
+              {todo.deadline
+                ? new Date(todo.deadline).toLocaleString()
+                : "未設定"}
+            </div>
+
+            <div className="flex grow items-end">
+              <button
+                onClick={() => props.deleteTodo(todo.id)}
+                className="absolute -right-2 -top-2 flex size-6 items-center justify-center rounded-full bg-red-500 text-white hover:bg-red-600"
+              >
+                ✖
+              </button>
+            </div>
           </div>
         </div>
       ))}
