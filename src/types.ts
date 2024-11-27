@@ -3,5 +3,5 @@ export type Todo = {
   name: string;
   isDone: boolean;
   priority: number;
-  deadline: Date | null; // ◀◀ 注目
+  deadline: Date | null;
 };
