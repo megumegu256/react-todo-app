@@ -63,6 +63,11 @@ const App = () => {
   };
 
   const addNewTodo = () => {
+    const err = isValidTodoName(newTodoName);
+    if (err !== "") {
+      setNewTodoNameError(err);
+      return;
+    }
     const newTodo: Todo = {
       id: uuid(),
       name: newTodoName,
